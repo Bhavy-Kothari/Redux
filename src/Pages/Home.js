@@ -12,7 +12,7 @@ const Home = () => {
     }
     return(
         <div>
-            <h1> Hello {userName.firstname}</h1>
+            <h1> Hello , {userName.firstname}</h1>
             <p> Welcome to our website </p>
             <div>
                 <button type="button" onClick={handleLogout}> Log out </button>
