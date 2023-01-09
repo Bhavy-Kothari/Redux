@@ -1,79 +1,61 @@
 import React , { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-import {connect} from "react-redux";
-import loginReducer from "../Redux/Reducers/reducer";
+import withUser from '../Redux/withUser'
 
-const Login =(props) => {
+const Login =({setLoginReducer}) => {
     const navigate = useNavigate();
     const [input , setInput] = useState({
-        email : props.login.user.email,
-        password : props.login.user.password
+      email: '',
+      password: ''
     });
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        const loggeduser = JSON.parse( localStorage.getItem('user'))
-        if(
-            input.email === loggeduser.email &&
-            input.password === loggeduser.password
-        ) {
-            navigate("/")
-        }
-         else{
-             alert(" Wrong Email or Password ")
-        }
+    const handleLogin = () => {
+        setLoginReducer(input)
+        navigate('/dashboard')
     };
 
+    const handleChange = e => {
+        setInput({
+            ...input , [e.target.name] : e.target.value,
+        })
+    };
 
     return(
-        <>
-            <h1> Login page </h1>
-            <section>
-                <form onSubmit={ handleLogin }>
-                    <div>
-                        <label htmlFor="email" > Email Id : </label>
-                        <input
-                            name="email"
-                            value={input.email}
-                            onChange={(e) =>
-                                setInput({
-                                    ...input , [e.target.name] : e.target.value,
-                                })}
-                            type="email"
-                            placeholder="Enter your email"
-                        />
-                    </div>
-                    <br/>
 
-                    <div>
-                        <label htmlFor="password" > Password : </label>
-                        <input
-                            name="password"
-                            value={input.password}
-                            onChange={(e) =>
-                                setInput({
-                                    ...input , [e.target.name] : e.target.value,
-                                })}
-                            type="password"
-                            placeholder="Enter your password"
-                        />
-                    </div>
-                    <br/><br/>
+    <form>
+        <div>
+            <label htmlFor="email" > Email Id : </label>
+            <input
+                className="inputfield"
+                type="email"
+                placeholder="Email.."
+                autoComplete="username"
+                name="email"
+                value={input.email}
+                onChange={(e) => handleChange(e)}
+            />
+        </div>
+        <br/>
 
-                    <div>
-                        <button type="submit"> Log in k</button>
-                        <p> Registered here <a href="/register"> Register </a></p>
-                    </div>
-                </form>
-            </section>
-        </> )}
+        <div>
+            <label htmlFor="password" > Password : </label>
+          <input
+              className="inputfield"
+              type="password"
+              placeholder="Password.."
+              autoComplete="current-password"
+              name="password"
+              value={input.password}
+              onChange={(e) => handleChange(e)}
+          />
+        </div>
+        <br/><br/>
 
-const mapStateToProps = (state) => ({
-    login:state.login
-})
+        <div>
+            <button type="button" onClick={() => handleLogin()}> Log in</button>
+            <p> Registered here <a href="/register"> Register </a></p>
+        </div>
+    </form>
+    )}
 
-const mapDispatchToProps = (dispatch) => ({
-    Login
-})
-
-export default connect (mapStateToProps , mapDispatchToProps)(Login)
+export default withUser(Login)
