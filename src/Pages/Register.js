@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import {useNavigate} from "react-router-dom";
-const Register = () => {
+// import {useDispatch , useSelector} from "react-redux";
+import {Register} from "../Redux/Actions/action";
+import {connect} from "react-redux";
+
+const Registered = () => {
     const navigate = useNavigate()
     const [input , setInput] = useState({
         firstname : "",
@@ -15,6 +19,10 @@ const Register = () => {
         localStorage.setItem("user" , JSON.stringify(input));
         navigate("/login")
     };
+
+    // const dispatch = useDispatch()
+    // const register = useSelector((state) => state.register)
+
 
     return (
         <div className="App">
@@ -50,8 +58,6 @@ const Register = () => {
                 </div>
                 <br/>
 
-
-
                 <div>
                     <label htmlFor="email" > Email Id : </label>
                     <input
@@ -83,7 +89,7 @@ const Register = () => {
                 <br/>
 
                 <div>
-                    <button type="submit"> Register </button>
+                    <button onClick={handleSubmit}> Register </button>
                 </div>
 
                 <p> Have already an account ? <a href="/login"> Login Here </a></p>
@@ -91,4 +97,13 @@ const Register = () => {
         </div>
     );
 };
-export default Register;
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         Register:()=>dispatch(Register())}}
+//
+// const mapStateToProps = (state) => {
+//     return{
+//
+//     }
+// }
+export default Registered

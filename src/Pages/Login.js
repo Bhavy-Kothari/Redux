@@ -1,10 +1,13 @@
 import React , { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
-const Login =() => {
+import {connect} from "react-redux";
+import loginReducer from "../Redux/Reducers/reducer";
+
+const Login =(props) => {
     const navigate = useNavigate();
     const [input , setInput] = useState({
-        email : "",
-        password : ""
+        email : props.login.user.email,
+        password : props.login.user.password
     });
 
     const handleLogin = (e) => {
@@ -16,10 +19,11 @@ const Login =() => {
         ) {
             navigate("/")
         }
-        else{
-            alert(" Wrong Email or Password ")
+         else{
+             alert(" Wrong Email or Password ")
         }
     };
+
 
     return(
         <>
@@ -57,13 +61,19 @@ const Login =() => {
                     <br/><br/>
 
                     <div>
-                        <button type="submit"> Log in  </button>
+                        <button type="submit"> Log in k</button>
                         <p> Registered here <a href="/register"> Register </a></p>
                     </div>
                 </form>
             </section>
-        </>
-    )
-}
+        </> )}
 
-export default Login;
+const mapStateToProps = (state) => ({
+    login:state.login
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    Login
+})
+
+export default connect (mapStateToProps , mapDispatchToProps)(Login)
